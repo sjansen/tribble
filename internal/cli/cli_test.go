@@ -15,6 +15,16 @@ func TestArgParser(t *testing.T) {
 		Args:     []string{"init"},
 		Expected: initCmd{},
 	}, {
+		Args: []string{"init", "-f"},
+		Expected: initCmd{
+			Force: true,
+		},
+	}, {
+		Args: []string{"init", "--force"},
+		Expected: initCmd{
+			Force: true,
+		},
+	}, {
 		Args: []string{"new", "foo", "bar"},
 		Expected: newCmd{
 			Src: "foo",

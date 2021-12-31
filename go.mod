@@ -3,6 +3,7 @@ module github.com/sjansen/tribble
 go 1.17
 
 require (
+	github.com/BurntSushi/toml v0.4.1
 	github.com/alecthomas/kong v0.2.22
 	github.com/go-git/go-billy/v5 v5.3.1
 	github.com/go-git/go-git/v5 v5.4.2
