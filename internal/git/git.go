@@ -1,11 +1,9 @@
-package main
+package git
 
 import (
 	"context"
-	"fmt"
-	"io"
-	"os"
 
+	"github.com/go-git/go-billy/v5"
 	"github.com/go-git/go-billy/v5/memfs"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
@@ -14,40 +12,23 @@ import (
 	"github.com/go-git/go-git/v5/storage/memory"
 )
 
-const url = "https://github.com/sjansen/tribble"
-
-func main() {
-	ctx := context.TODO()
+func Clone(ctx context.Context, url, refname string) (billy.Filesystem, error) {
 	fs := memfs.New()
 	storer := memory.NewStorage()
-
-	refname, err := findDefaultRefName(url)
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		return
-	}
-
-	_, err = git.CloneContext(ctx, storer, fs, &git.CloneOptions{
+	_, err := git.CloneContext(ctx, storer, fs, &git.CloneOptions{
 		URL:           url,
-		ReferenceName: refname,
+		ReferenceName: plumbing.ReferenceName(refname),
 		SingleBranch:  true,
 		Depth:         1,
 	})
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		return
+		return nil, err
 	}
 
-	license, err := fs.Open("LICENSE")
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		return
-	}
-
-	io.Copy(os.Stdout, license)
+	return fs, nil
 }
 
-func findDefaultRefName(url string) (plumbing.ReferenceName, error) {
+func FindDefaultRefName(ctx context.Context, url string) (plumbing.ReferenceName, error) {
 	var name plumbing.ReferenceName
 
 	e, err := transport.NewEndpoint(url)
@@ -65,7 +46,7 @@ func findDefaultRefName(url string) (plumbing.ReferenceName, error) {
 		return name, err
 	}
 
-	info, err := s.AdvertisedReferences()
+	info, err := s.AdvertisedReferencesContext(ctx)
 	if err != nil {
 		return name, err
 	}

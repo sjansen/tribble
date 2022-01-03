@@ -1,14 +1,12 @@
 package template
 
 import (
-	"errors"
 	"os"
 
 	"github.com/BurntSushi/toml"
-	"github.com/go-git/go-billy/v5"
-)
 
-const configPath = "_tribble/config.toml"
+	"github.com/sjansen/tribble/internal/errors"
+)
 
 // ConfigVersion indicates project template settings compatibility.
 // Currently only one version is defined: 0
@@ -24,40 +22,39 @@ type Config struct {
 }
 
 // LoadConfig reads Tribble-specific project template settings.
-func LoadConfig(fs billy.Filesystem) (*Config, error) {
-	f, err := fs.Open(configPath)
+func (t *Template) LoadConfig() (*Config, error) {
+	f, err := t.fs.Open(configPath)
 	if err != nil {
 		return nil, err
 	}
 
-	config := &Config{}
-	_, err = toml.NewDecoder(f).Decode(config)
-	if err != nil {
+	c := &Config{}
+	if _, err = toml.NewDecoder(f).Decode(c); err != nil {
 		return nil, err
 	}
 
-	return config, nil
+	return c, nil
 }
 
 // SaveConfig writes Tribble-specific project template settings.
-func SaveConfig(fs billy.Filesystem, config *Config, force bool) error {
+func (t *Template) SaveConfig(c *Config, force bool) error {
 	if !force {
-		_, err := fs.Stat(configPath)
-		if err == nil {
-			return &ErrExists{
+		if _, err := t.fs.Stat(configPath); err != nil {
+			if !errors.Is(err, os.ErrNotExist) {
+				return err
+			}
+		} else {
+			return &errors.ErrExists{
 				Path: configPath,
 			}
 		}
-		if !errors.Is(err, os.ErrNotExist) {
-			return err
-		}
 	}
 
-	f, err := fs.Create(configPath)
+	f, err := t.fs.Create(configPath)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 
-	return toml.NewEncoder(f).Encode(config)
+	return toml.NewEncoder(f).Encode(c)
 }

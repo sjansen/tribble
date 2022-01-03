@@ -7,9 +7,9 @@ import (
 )
 
 var cli struct {
-	Init   initCmd   `kong:"cmd"`
-	New    newCmd    `kong:"cmd"`
-	Update updateCmd `kong:"cmd"`
+	Create createCmd `kong:"cmd,help='Create a new project from a project template'"`
+	Init   initCmd   `kong:"cmd,help='Convert an existing directory into a project template'"`
+	Update updateCmd `kong:"cmd,help='Apply templates changes to an existing project'"`
 }
 
 // ParseAndRun parses command line arguments, then runs the matching command.

@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-git/go-billy/v5/osfs"
 
-	"github.com/sjansen/tribble/internal/template"
+	"github.com/sjansen/tribble/internal/project/template"
 )
 
 type initCmd struct {
@@ -18,5 +18,6 @@ func (cmd *initCmd) Run() error {
 		return err
 	}
 
-	return template.Initialize(osfs.New(cwd), cmd.Force)
+	t := template.New(osfs.New(cwd))
+	return t.Initialize(cmd.Force)
 }

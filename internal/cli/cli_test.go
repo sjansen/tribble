@@ -26,9 +26,9 @@ func TestArgParser(t *testing.T) {
 		},
 	}, {
 		Args: []string{"new", "foo", "bar"},
-		Expected: newCmd{
-			Src: "foo",
-			Dst: "bar",
+		Expected: createCmd{
+			Project:  "foo",
+			Template: "bar",
 		},
 	}, {
 		Args:     []string{"update"},

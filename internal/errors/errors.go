@@ -1,4 +1,4 @@
-package template
+package errors
 
 import (
 	"fmt"
@@ -16,3 +16,5 @@ func (e *ErrExists) Error() string {
 func (e *ErrExists) Unwrap() error {
 	return fs.ErrExist
 }
+
+var SkipDir error = fs.SkipDir
