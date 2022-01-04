@@ -3,17 +3,17 @@ package project
 import (
 	"github.com/BurntSushi/toml"
 
-	"github.com/sjansen/tribble/internal/variables"
+	"github.com/sjansen/tribble/internal/project/template"
 )
 
 // LoadAnswers reads Tribble-specific project settings.
-func (p *Project) LoadAnswers() (*variables.Answers, error) {
+func (p *Project) LoadAnswers() (*template.Answers, error) {
 	f, err := p.fs.Open(answersPath)
 	if err != nil {
 		return nil, err
 	}
 
-	a := &variables.Answers{}
+	a := &template.Answers{}
 	if _, err = toml.NewDecoder(f).Decode(a); err != nil {
 		return nil, err
 	}
@@ -22,7 +22,7 @@ func (p *Project) LoadAnswers() (*variables.Answers, error) {
 }
 
 // SaveAnswers writes Tribble-specific project settings.
-func (p *Project) SaveAnswers(a *variables.Answers) error {
+func (p *Project) SaveAnswers(a *template.Answers) error {
 	f, err := p.fs.Create(answersPath)
 	if err != nil {
 		return err

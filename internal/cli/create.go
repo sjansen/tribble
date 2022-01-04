@@ -10,7 +10,6 @@ import (
 	"github.com/sjansen/tribble/internal/errors"
 	"github.com/sjansen/tribble/internal/project"
 	"github.com/sjansen/tribble/internal/project/template"
-	"github.com/sjansen/tribble/internal/variables"
 )
 
 type createCmd struct {
@@ -39,7 +38,7 @@ func (cmd *createCmd) Run() error {
 	c.Origin.URL = origin
 	c.Origin.RefName = refname
 
-	a := &variables.Answers{
+	a := &template.Answers{
 		"project": {
 			"name": filepath.Base(dst),
 		},

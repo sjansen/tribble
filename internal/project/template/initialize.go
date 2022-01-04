@@ -1,9 +1,5 @@
 package template
 
-import (
-	"github.com/sjansen/tribble/internal/variables"
-)
-
 // Initialize creates the files required for a project template.
 func (t *Template) Initialize(force bool) error {
 	c := &Config{}
@@ -12,7 +8,7 @@ func (t *Template) Initialize(force bool) error {
 		return err
 	}
 
-	q := &variables.Questions{
+	q := &Questions{
 		"project": {
 			"name": {
 				Required: true,
