@@ -13,6 +13,7 @@ import (
 )
 
 func Clone(ctx context.Context, url, refname string) (billy.Filesystem, error) {
+	// TODO verify refname if provided
 	fs := memfs.New()
 	storer := memory.NewStorage()
 	_, err := git.CloneContext(ctx, storer, fs, &git.CloneOptions{

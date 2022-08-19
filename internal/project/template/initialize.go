@@ -11,9 +11,11 @@ func (t *Template) Initialize(force bool) error {
 	q := &Questions{
 		"project": {
 			"name": {
+				Prompt:   "Project Name:",
 				Required: true,
 			},
 			"owner": {
+				Prompt:   "Project Owner:",
 				Required: false,
 			},
 		},

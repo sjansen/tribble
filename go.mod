@@ -9,6 +9,7 @@ require (
 	github.com/go-git/go-git/v5 v5.4.2
 	github.com/stretchr/testify v1.7.0
 	go.starlark.net v0.0.0-20211203141949-70c0e40ae128
+	golang.org/x/text v0.3.7
 )
 
 require (

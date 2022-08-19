@@ -9,6 +9,7 @@ import (
 var cli struct {
 	Create createCmd `kong:"cmd,help='Create a new project from a project template'"`
 	Init   initCmd   `kong:"cmd,help='Convert an existing directory into a project template'"`
+	Lint   lintCmd   `kong:"cmd,help='Check a project template for mistakes'"`
 	Update updateCmd `kong:"cmd,help='Apply templates changes to an existing project'"`
 }
 

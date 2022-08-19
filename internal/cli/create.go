@@ -14,7 +14,8 @@ import (
 
 type createCmd struct {
 	Project  string `kong:"arg,help='Path to new project.'"`
-	Template string `kong:"arg,help='Path or URL of project template.'"`
+	Template string `kong:"arg,default='.',help='Path or URL of project template.'"`
+	Branch   string `kong:"arg,optional,help='TODO'"`
 }
 
 func (cmd *createCmd) Run() error {

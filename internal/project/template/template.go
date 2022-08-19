@@ -42,7 +42,7 @@ func Open(ctx context.Context, url, refname string) (t *Template, err error) {
 		}, nil
 	}
 
-	if refname == "" {
+	if refname == "" && src.Scheme != "" {
 		r, err := git.FindDefaultRefName(ctx, url)
 		if err != nil {
 			return nil, err
