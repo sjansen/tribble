@@ -4,6 +4,11 @@ import (
 	"github.com/sjansen/tribble/internal/cli"
 )
 
+var build string // set by goreleaser
+
 func main() {
-	cli.ParseAndRun()
+	if build == "" {
+		build = version
+	}
+	cli.ParseAndRun(build)
 }
