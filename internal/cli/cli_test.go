@@ -25,14 +25,14 @@ func TestArgParser(t *testing.T) {
 			Force: true,
 		},
 	}, {
-		Args: []string{"new", "foo", "bar"},
+		Args: []string{"create", "foo", "bar"},
 		Expected: createCmd{
 			Project:  "foo",
 			Template: "bar",
 		},
 	}, {
 		Args:     []string{"update"},
-		Expected: initCmd{},
+		Expected: updateCmd{},
 	}} {
 		t.Run(strings.Join(tc.Args, " "), func(t *testing.T) {
 			require := require.New(t)
