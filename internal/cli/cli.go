@@ -12,7 +12,7 @@ var cli struct {
 	Init    initCmd    `kong:"cmd,help='Convert an existing directory into a project template'"`
 	Lint    lintCmd    `kong:"cmd,help='Check a project template for mistakes'"`
 	Update  updateCmd  `kong:"cmd,help='Apply templates changes to an existing project'"`
-	Version versionCmd `kong:"cmd,help='Print Tribble version number'"`
+	Version versionCmd `kong:"cmd,help='Print Tribble’s version number'"`
 }
 
 // ParseAndRun parses command line arguments, then runs the matching command.
