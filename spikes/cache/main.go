@@ -66,7 +66,7 @@ func openFromCache(ctx context.Context, url string) (*git.Repository, error) {
 	if err != nil {
 		return nil, err
 	}
-	cache = filepath.Join(cache, "tribble", "github.com", "sjansen", "tribble")
+	cache = filepath.Join(cache, "tribble", "github.com", "sjansen", "tribble.git")
 
 	create := false
 	fi, err := os.Stat(cache)
