@@ -11,8 +11,7 @@ type Project interface {
 }
 
 func (t *Template) Clone(p Project) error {
-	t.clone("/", p)
-	return nil
+	return t.clone("/", p)
 }
 
 func (t *Template) clone(path string, proj Project) error {
@@ -48,7 +47,7 @@ func (t *Template) clone(path string, proj Project) error {
 }
 
 func (t *Template) copy(path string, fi os.FileInfo, proj Project) error {
-	f, err := t.fs.Open(fi.Name())
+	f, err := t.fs.Open(path)
 	if err != nil {
 		return err
 	}

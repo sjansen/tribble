@@ -25,32 +25,32 @@ func (cmd *createCmd) Run() error {
 	}
 
 	ctx := context.TODO()
-	t, err := template.Open(ctx, cmd.Template, "")
+	tmpl, err := template.Open(ctx, cmd.Template, "")
 	if err != nil {
 		return err
 	}
 
-	origin, refname, err := t.Origin(dst)
+	origin, refname, err := tmpl.Origin(dst)
 	if err != nil {
 		return err
 	}
 
-	c := &project.Config{}
-	c.Origin.URL = origin
-	c.Origin.RefName = refname
+	cfg := &project.Config{}
+	cfg.Origin.URL = origin
+	cfg.Origin.RefName = refname
 
-	a := &template.Answers{
+	answers := &template.Answers{
 		"project": {
 			"name": filepath.Base(dst),
 		},
 	}
 
 	proj := project.New(osfs.New(dst))
-	if err := proj.Create(c, a); err != nil {
+	if err := proj.Create(cfg, answers); err != nil {
 		return err
 	}
 
-	return t.Clone(proj)
+	return tmpl.Clone(proj)
 }
 
 func mkdir(path string) error {
