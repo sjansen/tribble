@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/go-git/go-billy/v5/osfs"
 
@@ -16,15 +17,21 @@ type createCmd struct {
 	Project  string `kong:"arg,help='Path to new project.'"`
 	Template string `kong:"arg,default='.',help='Path or URL of project template.'"`
 	Branch   string `kong:"arg,optional,help='TODO'"`
+	Timeout  int    `kong:"default='60',short='t',help='Timeout in seconds'"`
 }
 
 func (cmd *createCmd) Run() error {
+	ctx, cancel := context.WithTimeout(
+		context.Background(),
+		time.Duration(cmd.Timeout)*time.Second,
+	)
+	defer cancel()
+
 	dst := filepath.Clean(cmd.Project)
 	if err := mkdir(dst); err != nil {
 		return err
 	}
 
-	ctx := context.TODO()
 	tmpl, err := template.Open(ctx, cmd.Template, "")
 	if err != nil {
 		return err
