@@ -11,7 +11,7 @@ var cli struct {
 	Help    helpCmd    `kong:"cmd,help='Show this help text'"`
 	Init    initCmd    `kong:"cmd,help='Convert an existing directory into a project template'"`
 	Lint    lintCmd    `kong:"cmd,help='Check a project template for mistakes'"`
-	Update  updateCmd  `kong:"cmd,help='Apply templates changes to an existing project'"`
+	Update  updateCmd  `kong:"cmd,help='Apply template changes to an existing project'"`
 	Version versionCmd `kong:"cmd,help='Print Tribble’s version number'"`
 }
 
