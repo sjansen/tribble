@@ -2,12 +2,12 @@ package template
 
 import (
 	"context"
-	neturl "net/url"
 	"os"
 	"path/filepath"
 
 	"github.com/go-git/go-billy/v5"
 	"github.com/go-git/go-billy/v5/osfs"
+	"github.com/go-git/go-git/v5/plumbing/transport"
 
 	"github.com/sjansen/tribble/internal/git"
 )
@@ -28,10 +28,11 @@ func New(fs billy.Filesystem) *Template {
 }
 
 func Open(ctx context.Context, url, refname string) (t *Template, err error) {
-	src, err := neturl.Parse(url)
+	e, err := transport.NewEndpoint(url)
 	if err != nil {
 		return nil, err
-	} else if src.Scheme == "" {
+	} else if e.Protocol == "file" {
+		// TODO detect git clones
 		src := filepath.Clean(url)
 		if _, err := os.Stat(src); err != nil {
 			return nil, err
@@ -42,7 +43,7 @@ func Open(ctx context.Context, url, refname string) (t *Template, err error) {
 		}, nil
 	}
 
-	if refname == "" && src.Scheme != "" {
+	if refname == "" {
 		r, err := git.FindDefaultRefName(ctx, url)
 		if err != nil {
 			return nil, err
@@ -64,8 +65,8 @@ func Open(ctx context.Context, url, refname string) (t *Template, err error) {
 func (t *Template) Origin(dst string) (url, refname string, err error) {
 	if t.refname == "" {
 		origin := t.url
-		if !filepath.IsAbs(t.url) {
-			src, err := filepath.Abs(t.url)
+		if !filepath.IsAbs(origin) {
+			src, err := filepath.Abs(origin)
 			if err != nil {
 				return "", "", err
 			}
